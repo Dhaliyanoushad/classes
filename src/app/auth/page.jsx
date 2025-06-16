@@ -331,7 +331,7 @@ export default function AuthPage() {
         {/* Footer */}
         <div className="text-center mt-6">
           <p className="text-sm opacity-70" style={{ color: "#00408C" }}>
-            Secure authentication powered by modern encryption
+            Made with supabase and love
           </p>
         </div>
       </div>
