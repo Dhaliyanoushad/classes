@@ -34,21 +34,39 @@ export default function AddStudentForm({ classId, onRefresh }) {
   };
 
   return (
-    <div className="mb-6">
-      <h3 className="font-semibold mb-2">Add Student</h3>
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Student Name"
-        className="border p-2 mr-2 rounded"
-      />
-      <button
-        onClick={handleAdd}
-        disabled={loading || !name.trim()}
-        className="bg-green-600 text-white px-3 py-1 rounded disabled:opacity-50"
+    <div className="mb-8">
+      <h3
+        className="font-bold text-xl mb-4 bg-gradient-to-r from-blue-900 to-blue-500 bg-clip-text text-transparent"
+        style={{ color: "#00408C" }}
       >
-        {loading ? "Adding..." : "Add"}
-      </button>
+        Add Student
+      </h3>
+      <div className="flex gap-4 items-center">
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Student Name"
+          className="flex-1 px-4 py-3 rounded-xl border-0 shadow-lg focus:shadow-xl transition-all duration-300 outline-none focus:ring-2 focus:ring-opacity-50"
+          style={{
+            backgroundColor: "#F2EEE9",
+            color: "#00408C",
+            focusRingColor: "#96ADD6",
+          }}
+        />
+        <button
+          onClick={handleAdd}
+          disabled={loading || !name.trim()}
+          className="px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none"
+          style={{
+            background:
+              loading || !name.trim()
+                ? "#96ADD6"
+                : "linear-gradient(135deg, #E85234 0%, #F9B8AF 100%)",
+          }}
+        >
+          {loading ? "Adding..." : "Add"}
+        </button>
+      </div>
     </div>
   );
 }

@@ -42,30 +42,52 @@ export default function StudentTable({
   };
 
   return (
-    <table className="w-full border mt-6 text-left">
+    <table className="w-full mt-8 text-left overflow-hidden rounded-2xl shadow-lg">
       <thead>
-        <tr className="bg-gray-100">
-          <th className="p-2">Name</th>
-          <th className="p-2">Class</th>
-          {showAddForm && <th className="p-2">Actions</th>}
+        <tr
+          style={{
+            background: "linear-gradient(135deg, #00408C 0%, #96ADD6 100%)",
+          }}
+        >
+          <th className="p-4 text-white font-semibold">Name</th>
+          <th className="p-4 text-white font-semibold">Class</th>
+          {showAddForm && (
+            <th className="p-4 text-white font-semibold">Actions</th>
+          )}
         </tr>
       </thead>
       <tbody>
-        {students.map((student) => (
-          <tr key={student.id} className="border-b">
-            <td>{student.name}</td>
-            <td>{className}</td>
+        {students.map((student, index) => (
+          <tr
+            key={student.id}
+            className="border-b border-opacity-20 hover:shadow-md transition-all duration-300"
+            style={{
+              backgroundColor: index % 2 === 0 ? "#F2EEE9" : "#F2D7D3",
+              borderColor: "#96ADD6",
+            }}
+          >
+            <td className="p-4" style={{ color: "#00408C" }}>
+              {student.name}
+            </td>
+            <td className="p-4" style={{ color: "#00408C" }}>
+              {className}
+            </td>
             {showAddForm && (
-              <td className="p-2">
+              <td className="p-4 space-x-3">
                 <button
                   onClick={() => handleEdit(student)}
-                  className="text-blue-600"
+                  className="font-medium hover:underline transition-all duration-200"
+                  style={{ color: "#96ADD6" }}
                 >
                   Edit
                 </button>
 
                 <button
-                  className="bg-blue-600 text-white px-4 py-1 m-1"
+                  className="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #E85234 0%, #F9B8AF 100%)",
+                  }}
                   onClick={() => handleDelete(student.id)}
                 >
                   Delete
@@ -79,20 +101,35 @@ export default function StudentTable({
       {editData && showAddForm && (
         <tfoot>
           <tr>
-            <td colSpan="3" className="pt-4">
-              <input
-                className="border p-2"
-                value={editData.name}
-                onChange={(e) =>
-                  setEditData({ ...editData, name: e.target.value })
-                }
-              />
-              <button
-                onClick={updateStudent}
-                className="ml-2 bg-green-500 text-white px-3 py-1"
-              >
-                Save
-              </button>
+            <td
+              colSpan="3"
+              className="pt-6 pb-4 px-4"
+              style={{ backgroundColor: "#F2EEE9" }}
+            >
+              <div className="flex gap-4 items-center">
+                <input
+                  className="flex-1 px-4 py-3 rounded-xl border-0 shadow-lg focus:shadow-xl transition-all duration-300 outline-none focus:ring-2 focus:ring-opacity-50"
+                  style={{
+                    backgroundColor: "white",
+                    color: "#00408C",
+                    focusRingColor: "#96ADD6",
+                  }}
+                  value={editData.name}
+                  onChange={(e) =>
+                    setEditData({ ...editData, name: e.target.value })
+                  }
+                />
+                <button
+                  onClick={updateStudent}
+                  className="px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #96ADD6 0%, #00408C 100%)",
+                  }}
+                >
+                  Save
+                </button>
+              </div>
             </td>
           </tr>
         </tfoot>
