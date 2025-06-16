@@ -6,6 +6,7 @@ export default function StudentTable({
   teacherId,
   onRefresh,
   className,
+  showAddForm = false,
 }) {
   const [editingId, setEditingId] = useState(null);
   const [newName, setNewName] = useState("");
@@ -28,15 +29,15 @@ export default function StudentTable({
   const updateStudent = async () => {
     const { error } = await supabase
       .from("students")
-      .update({ name: editData.name }) // add more fields if needed
+      .update({ name: editData.name })
       .eq("id", editData.id);
 
     if (error) {
       alert("Update failed: " + error.message);
     } else {
       alert("Student updated");
-      setEditData(null); // hide form
-      onRefresh(); // refresh the student list
+      setEditData(null);
+      onRefresh();
     }
   };
 
@@ -46,7 +47,7 @@ export default function StudentTable({
         <tr className="bg-gray-100">
           <th className="p-2">Name</th>
           <th className="p-2">Class</th>
-          <th className="p-2">Actions</th>
+          {showAddForm && <th className="p-2">Actions</th>}
         </tr>
       </thead>
       <tbody>
@@ -54,41 +55,48 @@ export default function StudentTable({
           <tr key={student.id} className="border-b">
             <td>{student.name}</td>
             <td>{className}</td>
-            <td className="p-2">
-              <button
-                onClick={() => handleEdit(student)}
-                className="text-blue-600"
-              >
-                Edit
-              </button>
+            {showAddForm && (
+              <td className="p-2">
+                <button
+                  onClick={() => handleEdit(student)}
+                  className="text-blue-600"
+                >
+                  Edit
+                </button>
 
+                <button
+                  className="bg-blue-600 text-white px-4 py-1 m-1"
+                  onClick={() => handleDelete(student.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            )}
+          </tr>
+        ))}
+      </tbody>
+
+      {editData && showAddForm && (
+        <tfoot>
+          <tr>
+            <td colSpan="3" className="pt-4">
+              <input
+                className="border p-2"
+                value={editData.name}
+                onChange={(e) =>
+                  setEditData({ ...editData, name: e.target.value })
+                }
+              />
               <button
-                className="bg-blue-600 text-white px-4 py-1 m-1"
-                onClick={() => handleDelete(student.id)}
+                onClick={updateStudent}
+                className="ml-2 bg-green-500 text-white px-3 py-1"
               >
-                delete
+                Save
               </button>
             </td>
           </tr>
-        ))}
-        {editData && (
-          <div className="mt-4">
-            <input
-              className="border p-2"
-              value={editData.name}
-              onChange={(e) =>
-                setEditData({ ...editData, name: e.target.value })
-              }
-            />
-            <button
-              onClick={updateStudent}
-              className="ml-2 bg-green-500 text-white px-3 py-1"
-            >
-              Save
-            </button>
-          </div>
-        )}
-      </tbody>
+        </tfoot>
+      )}
     </table>
   );
 }

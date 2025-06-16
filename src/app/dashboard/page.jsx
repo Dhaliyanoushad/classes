@@ -14,15 +14,13 @@ export default function Dashboard() {
   const [hasClass, setHasClass] = useState(false);
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [classView, setClassView] = useState("");
+  const [classStudents, setClassStudents] = useState("");
   const [selectedClassId, setSelectedClassId] = useState(null);
   const [classesOther, setClassesOther] = useState([]);
   const router = useRouter();
 
   const fetchData = async () => {
     const { data: session } = await supabase.auth.getSession();
-    console.log(session);
-
     if (!session?.session?.user) return router.push("/auth");
 
     const uid = session.session.user.id;
@@ -37,21 +35,33 @@ export default function Dashboard() {
 
     setTeacher(teacherData);
     setClasses(teacherData.classes || []);
-    console.log(teacherData);
-
     setHasClass(teacherData.classes?.length > 0);
+
+    // ✅ REFETCH STUDENTS IN SELECTED CLASS
+    if (selectedClassId) {
+      const { data: updatedClassStudents } = await supabase
+        .from("students")
+        .select("*")
+        .eq("class_id", selectedClassId);
+
+      setClassStudents(updatedClassStudents || []);
+    }
+
+    // Optional: all students, if still needed
     const { data: allStudents } = await supabase
       .from("students")
       .select("*, classes(name, teacher_id)");
 
     setStudents(allStudents || []);
-    console.log("All students:", allStudents);
+
     const { data: otherClasses } = await supabase
       .from("classes")
       .select("*")
       .neq("teacher_id", teacherData.id);
+
     setClassesOther(otherClasses);
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -78,21 +88,29 @@ export default function Dashboard() {
       fetchData();
     }
   };
+
   const handleViewClass = async (classId) => {
-    setClassView([]);
+    if (selectedClassId === classId) {
+      // If already selected, toggle off (close)
+      setSelectedClassId(null);
+      setClassStudents([]);
+      return;
+    }
+
     setSelectedClassId(classId);
-    console.log(classId);
+    setClassStudents([]);
+
     const { data, error } = await supabase
       .from("students")
       .select("*")
       .eq("class_id", classId);
+
     if (error) {
       console.error("Error fetching class students:", error);
       return alert("Failed to fetch class students: " + error.message);
     }
-    console.log(data);
 
-    setClassView(data);
+    setClassStudents(data);
   };
 
   return (
@@ -120,61 +138,25 @@ export default function Dashboard() {
       </div>
 
       {!hasClass ? (
-        <div className="mb-6">
-          <h3 className="mb-2 font-semibold">Create a Class</h3>
-          <input
-            value={className}
-            onChange={(e) => setClassName(e.target.value)}
-            placeholder="Class Name"
-            className="border p-2 mr-2"
-          />
-          <button
-            onClick={handleCreateClass}
-            className="bg-blue-600 text-white px-4 py-1"
-          >
-            Create
-          </button>
-        </div>
+        <></>
       ) : (
         <>
-          <h3 className="mb-4 font-semibold">Your Classes</h3>
-          <ul className="space-y-3">
-            {classes.map((cls) => (
-              <li
-                key={cls.id}
-                className="bg-blue-100 p-4 rounded border flex flex-col"
-              >
-                <div className="bg-blue-50 p-4 rounded border flex justify-between items-center">
-                  <span className="font-medium">{cls.name}</span>
-                  <button
-                    className="bg-blue-300 p-2 rounded-2xl"
-                    onClick={() => handleViewClass(cls.id)}
-                  >
-                    View Class
-                  </button>
-                  <AddStudentForm classId={cls.id} onRefresh={fetchData} />{" "}
-                </div>
-                {selectedClassId == cls.id && classView.length > 0 && (
-                  <div className="mt-4">
-                    <h4 className="font-semibold mb-2">Students in Class</h4>
-                    <StudentTable
-                      students={classView}
-                      teacherId={teacher.id}
-                      onRefresh={fetchData}
-                      className={cls.name}
-                    />
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-
+          <ClassCard
+            title="Your Classes"
+            classes={classes}
+            teacherId={teacher.id}
+            selectedClassId={selectedClassId}
+            classStudents={classStudents}
+            handleViewClass={handleViewClass}
+            onRefresh={fetchData}
+            showAddForm={true}
+          />
           <ClassCard
             title="Other Classes"
             classes={classesOther}
             teacherId={teacher.id}
             selectedClassId={selectedClassId}
-            classView={classView}
+            classStudents={classStudents}
             handleViewClass={handleViewClass}
             onRefresh={fetchData}
           />
