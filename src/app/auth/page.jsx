@@ -161,7 +161,7 @@ export default function AuthPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <div
-              className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-110"
+              className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-102"
               style={{ backgroundColor: "#00408C" }}
             >
               <User className="w-8 h-8 text-white" />
@@ -242,11 +242,16 @@ export default function AuthPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    isSignup ? handleSignup() : handleLogin();
+                  }
+                }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 transition-colors duration-300 hover:scale-110"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 transition-colors duration-300 hover:scale-102"
                 style={{ color: "#96ADD6" }}
               >
                 {showPassword ? (
@@ -262,7 +267,7 @@ export default function AuthPage() {
               type="button"
               onClick={isSignup ? handleSignup : handleLogin}
               disabled={isLoading}
-              className="w-full py-4 rounded-2xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-2xl font-semibold text-white transition-all duration-300 hover:scale-102 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               style={{
                 background: isLoading
                   ? `linear-gradient(135deg, #96ADD6 0%, #00408C 100%)`

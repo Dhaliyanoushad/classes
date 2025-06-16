@@ -16,7 +16,7 @@ export default function LandingPage() {
 
         <a
           href="/auth"
-          className="inline-block px-10 py-4 rounded-2xl text-white font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          className="inline-block px-10 py-4 rounded-2xl text-white font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-101 transition-all duration-300"
           style={{
             background: "linear-gradient(135deg, #96ADD6 0%, #00408C 100%)",
           }}

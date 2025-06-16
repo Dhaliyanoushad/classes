@@ -54,7 +54,7 @@ export default function ClassCard({
                 {cls.name}
               </span>
               <button
-                className="px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                className="px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-102 transition-all duration-300"
                 style={{
                   background:
                     "linear-gradient(135deg, #96ADD6 0%, #00408C 100%)",

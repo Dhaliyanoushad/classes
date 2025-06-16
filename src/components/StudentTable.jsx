@@ -83,7 +83,7 @@ export default function StudentTable({
                 </button>
 
                 <button
-                  className="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                  className="px-4 py-2 rounded-lg text-white font-medium shadow-md hover:shadow-lg transform hover:scale-102 transition-all duration-300"
                   style={{
                     background:
                       "linear-gradient(135deg, #E85234 0%, #F9B8AF 100%)",
@@ -121,7 +121,7 @@ export default function StudentTable({
                 />
                 <button
                   onClick={updateStudent}
-                  className="px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                  className="px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-102 transition-all duration-300"
                   style={{
                     background:
                       "linear-gradient(135deg, #96ADD6 0%, #00408C 100%)",

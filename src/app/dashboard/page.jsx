@@ -177,7 +177,7 @@ export default function Dashboard() {
 
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg"
+          className="flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-102 hover:shadow-lg"
           style={{
             backgroundColor: "#F2D7D3",
             color: "#E85234",
@@ -242,7 +242,7 @@ export default function Dashboard() {
           <button
             onClick={handleCreateClass}
             disabled={!className.trim()}
-            className="px-8 py-4 rounded-2xl font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-8 py-4 rounded-2xl font-semibold text-white transition-all duration-300 hover:scale-102 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             style={{
               background: `linear-gradient(135deg, #E85234 0%, #00408C 100%)`,
             }}

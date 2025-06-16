@@ -56,7 +56,7 @@ export default function AddStudentForm({ classId, onRefresh }) {
         <button
           onClick={handleAdd}
           disabled={loading || !name.trim()}
-          className="px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none"
+          className="px-6 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-102 transition-all duration-300 disabled:opacity-50 disabled:transform-none"
           style={{
             background:
               loading || !name.trim()
